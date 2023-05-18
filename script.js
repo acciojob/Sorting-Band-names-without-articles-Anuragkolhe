@@ -1,20 +1,26 @@
-let bandNames = ['The Beatles', 'Led Zeppelin', 'Pink Floyd', 'The Who', 'Aerosmith'];
+const bandNames = ['The Beatles', 'Led Zeppelin', 'Pink Floyd', 'The Who', 'Aerosmith', 'Rolling Stones', 'Queen', 'Anthrax', 'Black Sabbath'];
 
-function removeArticle(bandName) {
-  // Regular expression to match articles at the beginning of the band name
-  let re = /^(?:The|An|A)\s+/i;
-  return bandName.replace(re, '');
-}
+		function sortBands(bands) {
+			const articles = ['the', 'a', 'an'];
+			const sortedBands = bands.sort(function(a, b) {
+				const nameA = a.toLowerCase().replace(/^(the|an|a)\s+/, '');
+				const nameB = b.toLowerCase().replace(/^(the|an|a)\s+/, '');
+				if (nameA < nameB) {
+					return -1;
+				}
+				if (nameA > nameB) {
+					return 1;
+				}
+				return 0;
+			});
+			return sortedBands;
+		}
 
-// Sort the band names in lexicographic order without articles
-bandNames.sort((a, b) => removeArticle(a).localeCompare(removeArticle(b)));
+		const sortedBands = sortBands(bandNames);
 
-// Get a reference to the "band" unordered list element
-let bandList = document.getElementById('bands');
-
-// Add the sorted band names as list items to the "band" unordered list element
-for (let name of bandNames) {
-  let listItem = document.createElement('li');
-  listItem.textContent = name;
-  bandList.appendChild(listItem);
-}
+		const bandList = document.getElementById("band");
+		sortedBands.forEach(function(band) {
+			const li = document.createElement("li");
+			li.appendChild(document.createTextNode(band));
+			bandList.appendChild(li);
+		});
